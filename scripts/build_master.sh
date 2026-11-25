@@ -10,14 +10,17 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-VIDEO=${1:-build/fire_loop.mp4}
-AUDIO=${2:-build/fire_audio.wav}
+# default to freshly built files, else the pre-built ones shipped in media/
+pick() { [[ -f "$1" ]] && echo "$1" || echo "$2"; }
+VIDEO=${1:-$(pick build/fire_loop.mp4 media/fire_loop_60s_1080p.mp4)}
+AUDIO=${2:-$(pick build/fire_audio.wav media/fire_audio_10min.m4a)}
 OUT=${3:-build/fireplace_master_1h.mp4}
 MINUTES=${4:-60}
 
 [[ -f "$VIDEO" ]] || { echo "missing $VIDEO — run: make video"; exit 1; }
 [[ -f "$AUDIO" ]] || { echo "missing $AUDIO — run: make audio"; exit 1; }
 
+mkdir -p "$(dirname "$OUT")"
 echo "Building ${MINUTES}-minute master → $OUT"
 ffmpeg -hide_banner -loglevel warning -stats -y \
   -stream_loop -1 -i "$VIDEO" \

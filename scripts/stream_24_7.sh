@@ -34,7 +34,7 @@ fi
 trap 'echo; echo "stopping"; exit 0' INT TERM
 while true; do
   echo "[$(date '+%F %T')] going live ($STREAM_MODE) …"
-  ffmpeg -hide_banner -loglevel warning -stats \
+  ffmpeg -hide_banner -loglevel warning -nostats \
     -re -stream_loop -1 -i "$STREAM_FILE" \
     "${CODEC[@]}" -flvflags no_duration_filesize \
     -f flv "${DEST[@]}"

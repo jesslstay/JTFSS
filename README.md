@@ -18,7 +18,19 @@ crackling fire sound:
 |---|---|
 | ![](branding/thumb_24h_live.png) | <img src="branding/avatar_800x800.png" width="300"> |
 
-## Quick start
+## Fastest path (no rendering)
+
+The repo ships a pre-rendered loop and audio in `media/`, so you only need `ffmpeg`:
+
+```bash
+scripts/build_master.sh                 # → build/fireplace_master_1h.mp4  (~2.7 GB, under a minute)
+cp config.env.example config.env        # paste your YouTube stream key
+scripts/stream_24_7.sh                  # 🔥 live
+```
+
+`media/preview_20s.mp4` is a 20-second clip with sound if you want a look and listen first.
+
+## Quick start (build everything yourself)
 
 Requirements: `ffmpeg`, `python3` + `numpy`, and `node` + `playwright` (only for rendering video and art).
 
@@ -92,5 +104,5 @@ scripts/render_branding.js    banner / avatar / watermark / thumbnails
 deploy/                       Dockerfile + systemd unit
 channel/CHANNEL.md            names, About text, titles, tags, playlists, growth notes
 branding/                     rendered channel art
-media/                        pre-built preview loop + audio (if present)
+media/                        pre-built 60 s loop, 10 min audio, 20 s preview
 ```
