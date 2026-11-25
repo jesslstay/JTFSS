@@ -1,7 +1,7 @@
 # Channel Identity
 
 ## Who it's for
-Women who want to get strong, firm and shapely with real weights and real food, without being afraid of "getting bulky" and without fad workouts. The channel's guide is George Snyder and Laura Dayton's ***Free Style Training: A Revolutionary New Approach to Exercise for Women*** (1995).
+Women who want to get strong, firm and shapely with real weights and real food, without being afraid of "getting bulky" and without fad workouts. The channel's guides are George Snyder and Laura Dayton's ***Free Style Training: A Revolutionary New Approach to Exercise for Women*** (1995) for the foundation, and Snyder and Rick Wayne's ***3 More Reps! The Science of Advanced Bodybuilding*** (1978–79) for the advanced, golden-era layer.
 
 ## Name
 **Working name: JTFSS — Freestyle Strength**
@@ -26,6 +26,8 @@ Alternates:
 >
 > My guide is *Free Style Training*, a 1995 book by George Snyder (creator of the Ms. Olympia) and women's bodybuilding pioneer Laura Dayton. Its big idea: train your muscles to fatigue to make them firm and shapely, not bulky.
 >
+> When the foundation is built, I go further with *The Science of Advanced Bodybuilding*, Snyder and Rick Wayne's record of how golden-era champions like Frank Zane and Arnold Schwarzenegger trained.
+>
 > Every video teaches one principle and puts it to work in a real workout. Follow along as I build my physique from day one, with full routines, meals and honest progress updates.
 >
 > New videos every [DAY] at [TIME].
@@ -36,9 +38,9 @@ Alternates:
 - **A friend who coaches.** Warm, direct, no shaming. Talk while you train, keep it short, then demonstrate.
 - **Myth-busting, kindly.** "Lifting won't make you bulky" is the channel's thesis. Prove it with your own progress.
 - **Honest.** Show real numbers, bad days and plateaus. The progress is the story.
-- **Credit the source every time:** "Snyder and Dayton write..."
+- **Credit the source every time:** "Snyder and Dayton write..." / "In *3 More Reps*, Snyder and Wayne..."
 - **No "fat-burning" product hype, no extreme dieting, no body-shaming.**
-- Catchphrase options: "Firm, not bulky." / "Train it to fatigue." / "Back to the iron."
+- Catchphrase options: "Firm, not bulky." / "Train it to fatigue." / "Three more reps." / "Back to the iron."
 
 ## Visual style
 - **Look:** warm, bright film tones with a touch of grain. A 1990s fitness magazine feel, but clean and modern.

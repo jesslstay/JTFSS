@@ -9,6 +9,7 @@ Five recurring formats. Each one has a clear job.
 | 3 | **Full Workout, Train With Me** | Watch time and community | 20–45 min | Every 2 weeks |
 | 4 | **The Old-School Kitchen** (diet) | Search traffic plus a broader audience | 8–12 min | Every 2 weeks |
 | 5 | **Myths & History** (women and weights, then and now) | Shareable, comment-driving | 8–12 min | Monthly |
+| 6 | **Golden-Era Champions** (a routine or principle from *The Science of Advanced Bodybuilding*, adapted for women) | Nostalgia, browse traffic, advanced viewers | 10–15 min | Monthly, weekly during Weeks 13–24 |
 
 Plus **Shorts**: 3–5 per week, cut from the long videos (a tip, an exercise, a meal, a "Rule" card).
 
@@ -48,6 +49,16 @@ Plus **Shorts**: 3–5 per week, cut from the long videos (a tip, an exercise, a
 - The first Ms. Olympia and how it changed women's fitness
 - 1990s fitness magazines vs. today: what they got right
 - Cardio-only vs. weights: what really changes your shape
+
+### 6. Golden-Era Champions
+- "Three more reps": the golden-era secret, explained
+- Frank Zane's approach to symmetry and a small waist, adapted for women
+- I trained like a 1970s champion for 4 weeks (one champion per block)
+- How the champions trained shoulders / back / calves / arms
+- The nutrition section of *3 More Reps* (Vol. 2): what holds up today
+- Freestyle vs. the champions: what women can borrow and what to skip
+
+*Always credit volume and page, and demonstrate the routine yourself instead of showing the book's pages.*
 
 ## Rules for every video
 1. The hook (first 15 seconds) states the payoff or shows the result.

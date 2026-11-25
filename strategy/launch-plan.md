@@ -3,7 +3,7 @@
 ## Before upload #1 (week 0)
 - [ ] Lock in the name, then claim the @handle on YouTube, Instagram and TikTok
 - [ ] Banner, profile icon, About section (`brand/channel-identity.md`)
-- [ ] Channel keywords: weight training for women, toning, strength training for women, old school training, free style training, George Snyder, Laura Dayton, women who lift, firm not bulky
+- [ ] Channel keywords: weight training for women, toning, strength training for women, old school training, free style training, George Snyder, Laura Dayton, 3 more reps, golden era bodybuilding, women who lift, firm not bulky
 - [ ] Film the "Day 1" physique check and measurements (this is the most important footage you'll shoot)
 - [ ] Batch-film videos 1–3 before launch so you start with a buffer
 - [ ] Gear: phone + tripod, clip-on mic (audio matters more than video), one soft light for indoor shots
@@ -26,8 +26,16 @@
 | 8 | Kitchen | Budget Grocery Haul for a Lean, Strong Body | template |
 | 9 | Train With Me | Back, Shoulders & Posture Workout (Freestyle) | template |
 | 10 | The Build | 8 Weeks In: The Scale vs. the Tape Measure | template |
-| 11 | Myths & History | Laura Dayton & the Women Who Pioneered Bodybuilding | template |
+| 11 | Golden-Era Champions | "Three More Reps": The 1970s Secret Women Can Use | template |
 | 12 | The Build | 12 Weeks of Freestyle Training: Before & After | template |
+
+## After week 12: the advanced phase
+Weeks 13–24 follow `programs/advanced-phase-weeks-13-24.md`. Each 4-week champion block becomes a mini-series:
+- Video 1: who the champion was and what the book says about them
+- Video 2: the full workout, train with me
+- Video 3: 4-week results, tied to the next Build check-in
+
+Save "Laura Dayton & the Women Who Pioneered Bodybuilding" for week 13 as the bridge between the two books.
 
 ## Shorts formula (under 60 seconds)
 1. Hook line on screen (e.g. "The 1995 trick for firmer arms")

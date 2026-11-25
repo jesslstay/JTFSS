@@ -34,7 +34,8 @@ One-sentence recap, then point to the next video: "Next week I'm testing ____. W
 
 [2 sentences that use the main search phrase naturally]
 
-📖 Source: George Snyder & Laura Dayton, *Free Style Training: A Revolutionary New Approach to Exercise for Women* (1995), p. __ (used for commentary and education)
+📖 Source: George Snyder & Laura Dayton, *Free Style Training: A Revolutionary New Approach to Exercise for Women* (1995), p. __
+📖 *or* George Snyder & Rick Wayne, *3 More Reps! The Science of Advanced Bodybuilding*, Vol. __, p. __ (used for commentary and education)
 
 ⏱ Chapters
 0:00 [Hook]
