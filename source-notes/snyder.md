@@ -3,13 +3,16 @@
 ## What's publicly documented
 
 - **George Snyder** was a Pennsylvania gym owner and bodybuilding promoter. He is credited with pioneering "seminars with the champs" for aspiring bodybuilders. ([Publishers Weekly](https://publishersweekly.com/978-0-8069-6470-6))
-- **Books:**
+- **The guiding book: *Free Style Training: A Revolutionary New Approach to Exercise for Women*** by George Snyder and Laura Dayton (paperback, 1995). ([ThriftBooks](https://www.thriftbooks.com/a/george-snyder/1120039/), [Walmart listing](https://www.walmart.com/ip/940648233))
+  - **Laura Dayton** was a pioneer of women's bodybuilding. Snyder created the Ms. Olympia contest.
+  - **Core idea (secondhand):** a 1998 newspaper article describes Freestyle Training as **fatiguing the muscles to make them firm, not big**. It says the name "Freestyle Training" was introduced and trademarked by *Vie*, a Florida fitness magazine for women. ([Detroit Jewish News, Mar 13 1998](https://digital.bentley.umich.edu/djnews/djn.1998.03.13.001/112/download_text))
+- **Other books:**
   - *3 More Reps* / *The Science of Advanced Bodybuilding* (with Rick Wayne), published around 1978–1980 by Olympus Gym-Spa. These books collect the training routines of about two dozen champions. Republished in 2019 as *Three More Reps: The Golden Age of Bodybuilding*. ([WorldCat](https://search.worldcat.org/title/Three-more-reps-:-Book-2/oclc/6805915), [review](https://www.martialartsentertainment.com/three-more-reps-the-golden-age-of-bodybuilding/))
   - *Posedown!: Muscletalk with the Champs* (with Rick Wayne, Sterling Publishing).
-  - The ***Freestyle*** books (1990). These set out the program Snyder had developed over more than 40 years.
+  - The *Freestyle* books (from 1990). These set out the program Snyder had developed over more than 40 years.
 - He also co-created the Freestyle Fitness competitions, which were judged on beauty and figure.
 
-> I couldn't find a detailed summary of the Freestyle training method online. **Everything in this repo that's specific to Snyder needs to come from your copy of the book.** Use the worksheet below, then update the program and scripts to match.
+> Beyond "fatigue for firmness, not size," I couldn't find a detailed summary of the method online. **Everything in this repo that's specific to Snyder needs to come from your copy of the book.** Use the worksheet below, then update the program and scripts to match.
 
 ## Worksheet: fill this in from the book
 
@@ -17,8 +20,9 @@ Write down page numbers so you can cite them on camera ("Snyder, *Freestyle*, p.
 
 ### 1. Core philosophy
 - What does "freestyle" mean in Snyder's system? ______
-- What physique ideal does he train toward (proportion, symmetry, shape, size)? ______
-- How does he describe the difference between training for strength and training for shape? ______
+- What physique ideal do Snyder and Dayton train toward (firmness, shape, proportion)? ______
+- How do they explain "fatigue for firmness, not size"? ______
+- Which myths about women and weights does the book take on? ______
 
 ### 2. Training structure
 - Days per week / split: ______
@@ -46,7 +50,7 @@ Write down page numbers so you can cite them on camera ("Snyder, *Freestyle*, p.
 2. ______
 3. ______
 
-### 6. Champion routines worth featuring (from *3 More Reps*)
+### 6. Routines or examples worth featuring (from *Free Style Training*)
 | Champion | Body part / routine | Page | Video idea |
 |---|---|---|---|
 | | | | |

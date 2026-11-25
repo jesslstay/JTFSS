@@ -11,7 +11,7 @@
 State the payoff or show the result. No intro, no logo.
 
 ## 0:15 Setup (≤45 sec)
-Why this matters. Where it comes from (credit Snyder or the golden era).
+Why this matters. Where it comes from (credit Snyder and Dayton).
 
 ## 1:00 The Rule
 Gold-on-black card. Explain it in plain words.
@@ -34,7 +34,7 @@ One-sentence recap, then point to the next video: "Next week I'm testing ____. W
 
 [2 sentences that use the main search phrase naturally]
 
-📖 Source: George Snyder, *[Book title]*, p. __ (used for commentary and education)
+📖 Source: George Snyder & Laura Dayton, *Free Style Training: A Revolutionary New Approach to Exercise for Women* (1995), p. __ (used for commentary and education)
 
 ⏱ Chapters
 0:00 [Hook]
@@ -46,13 +46,13 @@ One-sentence recap, then point to the next video: "Next week I'm testing ____. W
 
 *For education and entertainment only. Not medical advice.*
 
-#oldschoolbodybuilding #goldenera #classicphysique
+#strengthtrainingforwomen #womenwholift #freestyletraining
 
 ---
 
 # Thumbnail checklist
 - [ ] One subject, big and clear
 - [ ] 2–4 words maximum, readable on a phone
-- [ ] Gold or red accent on black
+- [ ] Gold or rose accent on black
 - [ ] Doesn't just repeat the title; adds to it
 - [ ] "WEEK X" badge on Build videos

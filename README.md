@@ -1,7 +1,7 @@
 # JTFSS — Freestyle Strength
 
-**An old-school weight training and diet YouTube channel.**
-Iron, real food and patience: building a classic, balanced physique the way the golden era did, using George Snyder's *Freestyle* books as the guide.
+**An old-school weight training and diet YouTube channel for women.**
+Weights, real food and patience: building a firm, strong, shapely physique, guided by George Snyder and Laura Dayton's *Free Style Training: A Revolutionary New Approach to Exercise for Women* (1995).
 
 > "JTFSS — Freestyle Strength" is a working name. Swap it out everywhere if you choose a different one (see `brand/channel-identity.md` for alternatives).
 
@@ -16,11 +16,11 @@ Iron, real food and patience: building a classic, balanced physique the way the 
 | [`nutrition/old-school-diet.md`](nutrition/old-school-diet.md) | Whole-food diet: calorie/protein targets, bulking and cutting templates, grocery list |
 | [`scripts/`](scripts/) | Full scripts for the first three videos |
 | [`templates/`](templates/) | Reusable script, description and thumbnail templates |
-| [`source-notes/snyder.md`](source-notes/snyder.md) | What's known about George Snyder's books, plus a worksheet to fill in from your copy |
+| [`source-notes/snyder.md`](source-notes/snyder.md) | What's known about *Free Style Training* and its authors, plus a worksheet to fill in from your copy |
 
 ## The channel in one paragraph
 
-Most fitness YouTube is about supplements, hacks and arguing over studies. This channel goes back to basics: barbells, dumbbells, a training log, eggs and steak, and years of steady work. Every video teaches one old-school principle, shows it being used in a real workout, and tracks one physique being built over time. The long-running story is the hook: viewers come back to see the progress.
+Women are still told that weights will make them bulky, or that the answer is endless cardio and dieting. A 1995 book by the creator of the Ms. Olympia and a women's bodybuilding pioneer said otherwise: train each muscle to fatigue and it gets firm and shapely, not big. This channel brings that method back. Every video teaches one principle, shows it in a real workout, and tracks one physique being built over time. The long-running story is the hook: viewers come back to see the progress.
 
 ## How to use this repo
 
