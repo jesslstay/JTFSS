@@ -1,0 +1,19 @@
+# systemd unit for a Linux VPS. Install:
+#   sudo cp deploy/fireplace-stream.service /etc/systemd/system/
+#   sudo systemctl daemon-reload && sudo systemctl enable --now fireplace-stream
+#   journalctl -u fireplace-stream -f
+[Unit]
+Description=Ember Noir 24/7 fireplace YouTube stream
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/ember-noir
+ExecStart=/opt/ember-noir/scripts/stream_24_7.sh
+Restart=always
+RestartSec=10
+Nice=-5
+
+[Install]
+WantedBy=multi-user.target

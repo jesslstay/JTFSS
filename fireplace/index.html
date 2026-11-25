@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ember Noir Fireplace</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
+  canvas { display: block; width: 100vw; height: 100vh; object-fit: contain; background: #000; }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<script>
+/*
+  EMBER NOIR — modern linear fireplace, rendered entirely in a fragment shader.
+
+  The animation is a perfect seamless loop of LOOP seconds: every time-varying
+  term is either periodic in LOOP, or blended between t and t-LOOP with a
+  variance-preserving crossfade, so frame(LOOP) == frame(0).
+
+  URL params:
+    ?w=1920&h=1080   render size (default: window size, live mode)
+    &loop=60         loop length in seconds
+    &zoom=1&ox=0&oy=0  camera framing (used for channel art)
+    &render=1        offline mode: no RAF; call window.renderFrame(t) from Playwright
+*/
+const params = new URLSearchParams(location.search);
+const LOOP = parseFloat(params.get('loop') || '60');
+const RENDER = params.get('render') === '1';
+
+const canvas = document.getElementById('c');
+const gl = canvas.getContext('webgl', { preserveDrawingBuffer: true, antialias: false, alpha: false });
+
+const vs = `attribute vec2 p; void main(){ gl_Position = vec4(p,0.,1.); }`;
+
+const fs = `
+precision highp float;
+uniform vec2  uRes;
+uniform float uTime;
+uniform float uLoop;
+uniform vec3  uView; // x,y offset, zoom (camera framing for stills)
+
+#define TAU 6.28318530718
+
+// ---------- noise ----------
+float hash12(vec2 p){ vec3 p3 = fract(vec3(p.xyx) * .1031); p3 += dot(p3, p3.yzx + 33.33); return fract((p3.x + p3.y) * p3.z); }
+vec2  hash22(vec2 p){ vec3 p3 = fract(vec3(p.xyx) * vec3(.1031,.1030,.0973)); p3 += dot(p3, p3.yzx+33.33); return fract((p3.xx+p3.yz)*p3.zy); }
+
+float vnoise(vec2 p){
+  vec2 i = floor(p), f = fract(p);
+  vec2 u = f*f*(3.-2.*f);
+  float a = hash12(i), b = hash12(i+vec2(1,0)), c = hash12(i+vec2(0,1)), d = hash12(i+vec2(1,1));
+  return mix(mix(a,b,u.x), mix(c,d,u.x), u.y);
+}
+float fbm(vec2 p){
+  float s = 0., a = .5;
+  mat2 r = mat2(.8,.6,-.6,.8);
+  for(int i=0;i<5;i++){ s += a*vnoise(p); p = r*p*2.02 + 17.1; a *= .5; }
+  return s;
+}
+
+// periodic flicker in [0,1], frequencies snapped to whole cycles per loop
+float pwave(float t, float hz, float ph){ float k = max(1., floor(hz*uLoop+.5)); return sin(TAU*k*t/uLoop + ph); }
+float flicker(float t, float seed){
+  return .5 + .5*(.45*pwave(t,1.7,seed) + .3*pwave(t,3.1,seed*2.3+1.) + .15*pwave(t,6.3,seed*4.1+2.) + .1*pwave(t,.37,seed+4.));
+}
+
+// ---------- layout ----------
+const float FLOOR_Y = -0.215;
+const float BOX_W   = 0.70;   // half width
+const float BOX_B   = -0.135; // bottom
+const float BOX_T   = 0.175;  // top
+const float FRAME   = 0.007;
+const float BED_H   = 0.040;
+
+// raw flame turbulence at time t
+float flameNoise(vec2 p, float t){
+  vec2 uv = vec2(p.x*6.0, p.y*2.3);
+  float w = fbm(uv*vec2(.6,1.) + vec2(3.1, -t*1.1));
+  return fbm(uv*vec2(1.,1.6) + vec2(w*1.6, w*.6 - t*3.2));
+}
+// seamless-loop blend: variance preserving crossfade between t and t-LOOP
+float flameNoiseLoop(vec2 p, float t){
+  float a = t/uLoop;
+  float n1 = flameNoise(p, t), n2 = flameNoise(p, t - uLoop);
+  float wA = 1.-a, wB = a;
+  return (wA*(n1-.5) + wB*(n2-.5)) / sqrt(wA*wA + wB*wB) + .5;
+}
+
+vec3 fireRamp(float f){
+  vec3 c = vec3(.75,.10,.02) * smoothstep(.0,.35,f);
+  c += vec3(1.0,.42,.08) * smoothstep(.2,.65,f) * 1.1;
+  c += vec3(1.0,.70,.32) * smoothstep(.5,.92,f) * .9;
+  c += vec3(1.0,.92,.78) * smoothstep(.86,1.,f) * .55;
+  return c;
+}
+
+// light emitted by the fire, roughly, used to light the room
+float fireEnergy(float t){ return .78 + .22*flicker(t, 1.3); }
+
+// ---------- ember bed (voronoi stones with glowing seams) ----------
+vec3 emberBed(vec2 p, float t, float hb){
+  vec2 g = vec2(p.x*24., p.y*44.);
+  vec2 ip = floor(g), fp = fract(g);
+  float d1 = 8., d2 = 8.; vec2 id1 = vec2(0);
+  for(int j=-1;j<=1;j++) for(int i=-1;i<=1;i++){
+    vec2 o = vec2(i,j);
+    vec2 r = o + hash22(ip+o)*.85 - fp;
+    float d = dot(r,r);
+    if(d<d1){ d2=d1; d1=d; id1=ip+o; } else if(d<d2){ d2=d; }
+  }
+  float edge = sqrt(d2) - sqrt(d1);
+  float seed = hash12(id1)*TAU;
+  float hot = .55 + .45*flicker(t, seed);
+  float glow = exp(-edge*16.) * hot * step(.5, hash12(id1+11.)+.25);
+  // stones get hotter toward the top surface where flames lick them
+  float top = smoothstep(0., 1., hb);
+  vec3 stone = mix(vec3(.018,.012,.010), vec3(.11,.045,.02), top*hash12(id1+3.));
+  // shading on stone tops
+  stone *= .6 + .8*smoothstep(.0,.35,edge);
+  glow *= .35 + .65*vnoise(p*vec2(140.,90.));
+  vec3 seam = vec3(1.0,.32,.05)*glow*(.45+1.*top) + vec3(1.,.7,.3)*pow(glow,4.)*top;
+  // whole bed breathing
+  return stone + seam * (.7 + .5*hash12(id1+7.));
+}
+
+// ---------- firebox interior ----------
+vec3 firebox(vec2 q, float t){
+  float H = BOX_T - BOX_B;
+  float bedTop = BOX_B + BED_H;
+  vec2 lp = vec2(q.x, q.y - bedTop);       // local, y=0 at bed surface
+  float h = lp.y / (H - BED_H);            // 0..1 above the bed
+
+  // dark fluted back panel lit by flames
+  float flute = .75 + .25*smoothstep(.2,.8, abs(fract(q.x*55.)-.5)*2.);
+  float e = fireEnergy(t);
+  vec3 back = vec3(.045,.016,.008) * flute * (1.4 - h) * e;
+  back += vec3(.35,.09,.02) * exp(-max(h,0.)*3.5) * .35 * e;
+
+  vec3 col = back;
+
+  if(lp.y > -0.004){
+    // flame height varies along the burner, slowly over the loop
+    float lane = fbm(vec2(q.x*3.2, 7.) + vec2(.6*pwave(t,.05,0.), .6*pwave(t,.03,1.)));
+    float tall = .55 + .75*lane;
+    // taper flames at both ends of the box
+    float ends = smoothstep(BOX_W, BOX_W-.12, abs(q.x));
+    float n = flameNoiseLoop(lp, t);
+    float shape = n*1.55 - h/(tall*ends+.04)*1.05 - .22;
+    float f = 1. - exp(-max(shape,0.)*3.1);  // soft clip: no flat plateaus
+    // hotter core near the bed
+    f = clamp(f*.92 + .14*exp(-h*18.)*smoothstep(.4,.7,n)*ends, 0., 1.);
+    vec3 fire = fireRamp(f);
+    // a whisper of blue at the very base, like a real gas burner
+    fire += vec3(.10,.22,.9) * exp(-lp.y*260.) * smoothstep(.45,.7,n) * ends * .55;
+    col += fire;
+  }
+
+  if(lp.y < 0.){
+    float hb = 1. + lp.y/BED_H; // 0 at bottom of bed, 1 at surface
+    col = mix(col, emberBed(q, t, hb), smoothstep(-.001,-.006, lp.y - .0015*sin(q.x*90.)));
+  }
+
+  // glass: faint diagonal reflection + slight smoky tint
+  float sheen = smoothstep(.0,.04, .025 - abs(q.x*.45 + q.y - .02)) * .035;
+  sheen += smoothstep(.0,.08, .03 - abs(q.x*.45 + q.y + .35)) * .015;
+  col = col*.93 + vec3(.9,.8,.75)*sheen;
+  // inner shadow near the frame
+  float dEdge = min(BOX_W-abs(q.x), min(q.y-BOX_B, BOX_T-q.y));
+  col *= smoothstep(.0,.03,dEdge)*.55 + .45;
+  return col;
+}
+
+// ---------- the whole room ----------
+vec3 room(vec2 q, float t){
+  float e = fireEnergy(t);
+  vec2 bc = vec2(0., (BOX_B+BOX_T)*.5);
+  vec2 bs = vec2(BOX_W, (BOX_T-BOX_B)*.5);
+  vec2 dq = abs(q-bc) - bs;
+  float dBox = length(max(dq,0.)) + min(max(dq.x,dq.y),0.);
+
+  if(dBox < 0.) return firebox(q, t);
+
+  // brushed bronze frame
+  if(dBox < FRAME){
+    float k = dBox/FRAME;
+    vec3 bronze = vec3(.42,.28,.17);
+    float spec = pow(1.-abs(k-.35)*1.6, 6.);
+    float lit = .35 + .65*smoothstep(-.4,.2, q.y - BOX_T + .1);
+    vec3 c = bronze*(.18 + .55*spec)*lit*e;
+    c += vec3(1.,.5,.2) * exp(-k*6.) * .18 * e;
+    return c;
+  }
+
+  // dark microcement wall, warm firelight falloff
+  float grain = fbm(q*vec2(60.,60.)) *.6 + fbm(q*vec2(6.,9.))*.4;
+  vec3 wall = vec3(.016,.015,.016) * (.7 + .6*grain);
+  float glow = exp(-dBox*10.) * .30 + exp(-dBox*3.) * .045;
+  // more light above the firebox (heat rises)
+  glow *= 1. + .6*smoothstep(-.1,.4, q.y - BOX_T);
+  vec3 light = vec3(1.,.42,.14) * glow * e;
+  wall += light * (.55 + .5*grain);
+  // recessed niche shadow line
+  wall *= 1. - .35*exp(-dBox*90.)*step(BOX_T, q.y);
+  return wall;
+}
+
+vec3 scene(vec2 q, float t){
+  if(q.y >= FLOOR_Y){
+    vec3 c = room(q, t);
+    // soft shadow at the base of the wall
+    c *= .55 + .45*smoothstep(0., .06, q.y-FLOOR_Y);
+    return c;
+  }
+  // glossy black stone hearth with a blurred, fading reflection
+  float d = FLOOR_Y - q.y;
+  vec2 rq = vec2(q.x, FLOOR_Y + d);
+  float rip = fbm(vec2(q.x*14., d*40.))-.5;
+  rq.x += rip*.012*d*6.;
+  vec3 refl = room(rq, t) * .42 * exp(-d*4.5);
+  float e = fireEnergy(t);
+  vec3 base = vec3(.012,.011,.012) + vec3(.28,.09,.03)*exp(-length(vec2(q.x*.7, d*3.)) * 3.) * .2 * e;
+  vec3 c = base + refl;
+  // polished edge highlight
+  c += vec3(1.,.55,.25) * exp(-d*900.) * .10 * e * smoothstep(1.2,.0,abs(q.x));
+  return c;
+}
+
+void main(){
+  vec2 q = (gl_FragCoord.xy - .5*uRes) / uRes.y * uView.z + uView.xy;
+  float t = mod(uTime, uLoop);
+  vec3 c = scene(q, t);
+
+  // filmic tone map + subtle warm grade
+  c = vec3(1.) - exp(-c*1.25);
+  c = pow(c, vec3(.95,1.,1.08));
+  // vignette
+  vec2 v = gl_FragCoord.xy/uRes - .5;
+  c *= 1. - dot(v*vec2(1.1,1.25), v*vec2(1.1,1.25))*1.05;
+  // fine film grain (deterministic per frame)
+  float g = hash12(gl_FragCoord.xy + floor(t*30.)*vec2(17.3, 91.7)) - .5;
+  c += g * .012;
+  gl_FragColor = vec4(clamp(c,0.,1.), 1.);
+}`;
+
+function compile(type, src){
+  const s = gl.createShader(type);
+  gl.shaderSource(s, src); gl.compileShader(s);
+  if(!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s));
+  return s;
+}
+const prog = gl.createProgram();
+gl.attachShader(prog, compile(gl.VERTEX_SHADER, vs));
+gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, fs));
+gl.linkProgram(prog);
+if(!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(prog));
+gl.useProgram(prog);
+
+const buf = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW);
+const loc = gl.getAttribLocation(prog, 'p');
+gl.enableVertexAttribArray(loc);
+gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+
+const uRes = gl.getUniformLocation(prog, 'uRes');
+const uTime = gl.getUniformLocation(prog, 'uTime');
+const uLoop = gl.getUniformLocation(prog, 'uLoop');
+const uView = gl.getUniformLocation(prog, 'uView');
+const VIEW = [parseFloat(params.get('ox')||'0'), parseFloat(params.get('oy')||'0'), parseFloat(params.get('zoom')||'1')];
+
+function resize(){
+  const W = parseInt(params.get('w')) || Math.round(innerWidth * devicePixelRatio);
+  const H = parseInt(params.get('h')) || Math.round(innerHeight * devicePixelRatio);
+  canvas.width = W; canvas.height = H;
+  gl.viewport(0, 0, W, H);
+}
+resize();
+addEventListener('resize', () => { if(!RENDER) resize(); });
+
+function draw(t){
+  gl.uniform2f(uRes, canvas.width, canvas.height);
+  gl.uniform1f(uTime, t);
+  gl.uniform1f(uLoop, LOOP);
+  gl.uniform3f(uView, VIEW[0], VIEW[1], VIEW[2]);
+  gl.drawArrays(gl.TRIANGLES, 0, 3);
+}
+
+// Offline renderer hook: draws frame at time t and returns raw RGB bytes
+// (bottom-up rows) as base64, for piping into ffmpeg.
+let pix = null, rgb = null;
+window.renderFrame = function(t){
+  draw(t);
+  const W = canvas.width, H = canvas.height;
+  if(!pix){ pix = new Uint8Array(W*H*4); rgb = new Uint8Array(W*H*3); }
+  gl.readPixels(0, 0, W, H, gl.RGBA, gl.UNSIGNED_BYTE, pix);
+  for(let i=0,j=0;i<pix.length;i+=4,j+=3){ rgb[j]=pix[i]; rgb[j+1]=pix[i+1]; rgb[j+2]=pix[i+2]; }
+  let s = '';
+  const CH = 0x8000;
+  for(let i=0;i<rgb.length;i+=CH) s += String.fromCharCode.apply(null, rgb.subarray(i, i+CH));
+  return btoa(s);
+};
+window.LOOP = LOOP;
+
+if(!RENDER){
+  const t0 = performance.now();
+  (function loop(){ draw(((performance.now()-t0)/1000) % LOOP); requestAnimationFrame(loop); })();
+}
+</script>
+</body>
+</html>
