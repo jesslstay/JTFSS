@@ -9,6 +9,7 @@
     avatar_800x800.png        profile picture (YouTube crops to a circle)
     watermark_150x150.png     video watermark (transparent)
     thumb_24h_live.png        1280x720 thumbnail for the 24/7 livestream
+    thumb_24h.png             1280x720 thumbnail for the 24-hour fireplace
     thumb_10h.png             1280x720 thumbnail for the 10-hour upload
     thumb_1h.png              1280x720 thumbnail for the 1-hour upload
 */
@@ -104,6 +105,7 @@ function thumb(bg, big, small) {
   // ---- thumbnails
   const thumbBg = await fireFrame(browser, 1280, 720, { zoom: 0.92, oy: 0.10, t: 33.1 });
   await shoot(browser, 1280, 720, thumb(thumbBg, `<span style="font-style:italic">Live</span> 24/7`, 'Modern Fireplace · Real Crackle'), 'thumb_24h_live.png');
+  await shoot(browser, 1280, 720, thumb(thumbBg, '24 Hours', 'Modern Fireplace · Real Crackle'), 'thumb_24h.png');
   await shoot(browser, 1280, 720, thumb(thumbBg, '10 Hours', 'Modern Fireplace · Real Crackle'), 'thumb_10h.png');
   await shoot(browser, 1280, 720, thumb(thumbBg, '1 Hour', 'Fireplace for Sleep &amp; Focus'), 'thumb_1h.png');
 

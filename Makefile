@@ -3,9 +3,9 @@
 LOOP    ?= 60
 FPS     ?= 30
 WORKERS ?= 4
-HOURS   ?= 10
+HOURS   ?= 24
 
-.PHONY: all audio video master long stream stream-test branding preview clean
+.PHONY: all audio video master long video-24h live-24h stream stream-test branding preview clean
 
 all: master
 
@@ -23,6 +23,12 @@ build/fireplace_master_1h.mp4: build/fire_loop.mp4 build/fire_audio.wav
 
 long: master
 	scripts/make_long_video.sh $(HOURS)
+
+video-24h: master
+	scripts/make_long_video.sh 24
+
+live-24h: master
+	DURATION_HOURS=24 scripts/stream_24_7.sh
 
 stream: master
 	scripts/stream_24_7.sh

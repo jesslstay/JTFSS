@@ -31,7 +31,19 @@ Copy-paste-ready text for YouTube Studio. The name is a placeholder; to rebrand,
 >
 > New long-form fires every week. Subscribe and keep the fire going.
 
-## Livestream (24/7)
+## The 24-hour broadcast (headline video)
+
+YouTube uploads max out at 12 hours, so the 24-hour fireplace goes out as a scheduled live broadcast
+(`make live-24h`). Schedule it in Studio ahead of time so subscribers get a reminder.
+
+**Title:**
+```
+24 Hour Fireplace 🔥 Modern Fireplace with Real Crackling Fire Sounds | Full Day & Night Ambience
+```
+**Thumbnail:** `branding/thumb_24h.png`
+In Studio, leave Auto-stop **on** for this one. The script ends the stream at exactly 24 hours.
+
+## Livestream (24/7, optional)
 
 **Title** (≤ 100 chars; front-load the keywords):
 ```

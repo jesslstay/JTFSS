@@ -1,4 +1,4 @@
-# EMBER NOIR — 24/7 Modern Fireplace for YouTube
+# EMBER NOIR — 24-Hour Modern Fireplace
 
 ![banner](branding/banner_2560x1440.png)
 
@@ -18,6 +18,21 @@ crackling fire sound:
 |---|---|
 | ![](branding/thumb_24h_live.png) | <img src="branding/avatar_800x800.png" width="300"> |
 
+## The 24-hour fireplace
+
+Most fireplace videos stop at 10 hours because **YouTube won't accept an upload longer than
+12 hours** (or 256 GB). There are two ways to get the full 24 hours:
+
+| Goal | Command | Result |
+|---|---|---|
+| **24 hours on YouTube** | `make live-24h` | One 24-hour **live broadcast** titled "24 Hour Fireplace". It runs exactly 24 h, reconnects if the internet blips, then stops by itself. |
+| **A 24-hour video file** | `make video-24h` | `build/ember_noir_fireplace_24h.mp4`, a true 24:00:00 video (~69 GB) for smart TVs, USB sticks, Plex, Vimeo, or your own site. |
+| 12-hour YouTube upload | `make long HOURS=12` | The longest YouTube will take as a regular video. |
+
+YouTube doesn't keep a replay of streams longer than 12 hours, so the 24-hour broadcast is watchable
+while it's live. Re-run it whenever you like (for example every weekend, or on holidays), or leave
+`DURATION_HOURS` empty to keep it on 24/7.
+
 ## Fastest path (no rendering)
 
 The repo ships a pre-rendered loop and audio in `media/`, so you only need `ffmpeg`:
@@ -25,7 +40,7 @@ The repo ships a pre-rendered loop and audio in `media/`, so you only need `ffmp
 ```bash
 scripts/build_master.sh                 # → build/fireplace_master_1h.mp4  (~2.7 GB, under a minute)
 cp config.env.example config.env        # paste your YouTube stream key
-scripts/stream_24_7.sh                  # 🔥 live
+DURATION_HOURS=24 scripts/stream_24_7.sh   # 🔥 live for 24 hours, then stops
 ```
 
 `media/preview_20s.mp4` is a 20-second clip with sound if you want a look and listen first.
@@ -43,7 +58,9 @@ make stream-test # writes 20 s to build/stream_test.flv to sanity-check
 cp config.env.example config.env   # paste your YouTube stream key
 make stream      # 🔥 live, forever (Ctrl-C to stop)
 
-make long HOURS=10   # build/ember_noir_fireplace_10h.mp4 for a regular upload
+make video-24h       # build/ember_noir_fireplace_24h.mp4, the full 24-hour file
+make live-24h        # one 24-hour YouTube live broadcast, then stop
+make long HOURS=12   # longest regular YouTube upload
 make branding        # re-render channel art (CHANNEL_NAME="..." to rebrand)
 ```
 
@@ -98,8 +115,8 @@ fireplace/index.html          WebGL fireplace (live preview + offline render hoo
 audio/generate_fire_audio.py  seamless fire soundscape generator (numpy)
 scripts/render_loop.js        renders the loop → MP4 (parallel, headless Chromium → ffmpeg)
 scripts/build_master.sh       video loop + audio loop → 1 h master
-scripts/make_long_video.sh    master → N-hour upload, no re-encode
-scripts/stream_24_7.sh        24/7 YouTube Live streamer with auto-reconnect
+scripts/make_long_video.sh    master → N-hour video (24 h by default), no re-encode
+scripts/stream_24_7.sh        YouTube Live streamer: fixed 24 h or forever, auto-reconnect
 scripts/render_branding.js    banner / avatar / watermark / thumbnails
 deploy/                       Dockerfile + systemd unit
 channel/CHANNEL.md            names, About text, titles, tags, playlists, growth notes
